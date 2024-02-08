@@ -15,4 +15,8 @@ public class Cell {
   public String getAscii() {
     return this.ascii;
   }
+
+  public void setAscii(String ascii) {
+    this.ascii = ascii;
+  }
 }

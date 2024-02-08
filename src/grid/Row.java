@@ -8,8 +8,16 @@ public class Row {
   private int length;
 
   public Row(ArrayList<Cell> row, int length) {
-    this.row = row; // ascii contents of the row
+    this.row = row; // Array of Data for each Cell in the row
     this.length = length; // how many ascii cells per row
+  }
+
+  public ArrayList<Cell> getRow() {
+    return this.row;
+  }
+
+  public void setRow(ArrayList<Cell> row) {
+    this.row = row;
   }
 
   public String printRow() {
@@ -17,12 +25,10 @@ public class Row {
     for (int i = 0; i < this.row.size(); i++) {
       tmp.add(this.row.get(i).getAscii());
     }
-    return String.join(" ", tmp);
+    return String.join("", tmp);
   }
 
-  public ArrayList<Cell> getRow() {
-    return this.row;
-  }
+  //^^^Combine these together like in grid
 
   public ArrayList<Cell> genRow() {
     for (int i = 0; i < this.length; i++) {
