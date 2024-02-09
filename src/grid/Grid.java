@@ -1,15 +1,15 @@
 package grid;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class Grid {
 
-  // private Row rowStructure;
   private int amountOfRows;
   private ArrayList<Row> rows;
 
   public Grid(int amountOfRows, ArrayList<Row> rows) {
-    // this.rowStructure = rowStructure;
     this.amountOfRows = amountOfRows;
     this.rows = rows; //Array of Data for each row
   }
@@ -20,6 +20,41 @@ public class Grid {
 
   public void setRows(ArrayList<Row> rows) {
     this.rows = rows;
+  }
+
+  public static int[] generateRandomCoordinate(int maxY, int maxX) {
+    Random random = new Random();
+    int y = random.nextInt(maxY);
+    int x = random.nextInt(maxX);
+    return new int[] { y, x };
+  }
+
+  public void plantMines(int amountOfMines) {
+    ArrayList<int[]> coordinatesOfMines = new ArrayList<>();
+    for (int i = 0; i <= amountOfMines - 1; i++) {
+      int[] randomCoord = generateRandomCoordinate(5, 3);
+      boolean containsDuplicate = false;
+      for (int[] existingCoord : coordinatesOfMines) {
+        if (Arrays.equals(existingCoord, randomCoord)) {
+          containsDuplicate = true;
+          break;
+        }
+      }
+      if (containsDuplicate) {
+        i--;
+      } else {
+        coordinatesOfMines.add(randomCoord);
+      }
+    }
+    for (int i = 0; i <= coordinatesOfMines.size() - 1; i++) {
+      rows
+        .get(coordinatesOfMines.get(i)[0])
+        .getRow()
+        .get(coordinatesOfMines.get(i)[1])
+        .setType(6);
+      System.out.println(Arrays.toString(coordinatesOfMines.get(i)));
+    }
+    System.out.println("Mines Planted!");
   }
 
   public String printGrid() {
@@ -33,7 +68,7 @@ public class Grid {
   public String createGrid() {
     for (int i = 0; i < this.amountOfRows; i++) {
       Row row = new Row(new ArrayList<Cell>(3), 3);
-      row.genRow();
+      row.createRow();
       rows.add(row);
     }
     return printGrid();
@@ -106,9 +141,6 @@ public class Grid {
       X,
       bottomCellAscii
     );
-    //I want to print what the Cell ascii contents are
-    //I want to then find the Cell class of each horizontally adjecent Cell based on the Y and X coordinates
-    //I want to print what THOSE cell ascii contents are and label them as the adjacent cells (With Coords listed too)
   }
 }
 //Expected output of getAdjacentAscii

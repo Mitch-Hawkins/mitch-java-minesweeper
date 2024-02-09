@@ -30,9 +30,9 @@ public class Row {
 
   //^^^Combine these together like in grid
 
-  public ArrayList<Cell> genRow() {
+  public ArrayList<Cell> createRow() {
     for (int i = 0; i < this.length; i++) {
-      Cell cell = new Cell();
+      Cell cell = new Cell(0);
       this.row.add(cell);
     }
     return this.row;
