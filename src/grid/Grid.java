@@ -83,70 +83,144 @@ public class Grid {
     return printGrid();
   }
 
-  public String getCellToLeft(int Y, int X) {
-    if (X - 1 >= 0) {
-      return rows.get(Y).getRow().get(X - 1).getAscii();
-    } else {
-      return "N/A";
+  public int getCellTypeByCoordinate(int Y, int X) {
+    if (
+      Y >= 0 &&
+      Y <= rows.size() - 1 &&
+      X <= rows.get(Y).getRow().size() - 1 &&
+      X >= 0
+    ) {
+      return rows.get(Y).getRow().get(X).getType();
+    } else return -1;
+  }
+
+  public String getCellAsciiByCoordinate(int Y, int X) {
+    if (
+      Y >= 0 &&
+      Y <= rows.size() - 1 &&
+      X <= rows.get(Y).getRow().size() - 1 &&
+      X >= 0
+    ) {
+      return rows.get(Y).getRow().get(X).getAscii();
+    } else return "N/A";
+  }
+
+  public void determineTypes() {
+    for (int x = 0; x <= rows.get(0).getRow().size() - 1; x++) {
+      for (int y = 0; y <= rows.size() - 1; y++) {
+        if (rows.get(y).getRow().get(x).getType() != 6) {
+          int cellNumberCount = 0;
+          ArrayList<Integer> cellTypes = getAdjacentCellsType(y, x);
+          for (int i = 0; i <= cellTypes.size() - 1; i++) {
+            if (cellTypes.get(i) == 6) {
+              cellNumberCount++;
+            }
+            rows.get(y).getRow().get(x).setType(cellNumberCount);
+          }
+        }
+      }
     }
   }
 
-  public String getCellToRight(int Y, int X) {
-    if (X + 1 <= rows.get(Y).getRow().size() - 1) {
-      return rows.get(Y).getRow().get(X + 1).getAscii();
+  public String revealBoard() {
+    for (int x = 0; x <= rows.get(0).getRow().size() - 1; x++) {
+      for (int y = 0; y <= rows.size() - 1; y++) {
+        if (rows.get(y).getRow().get(x).getType() <= 4) {
+          rows
+            .get(y)
+            .getRow()
+            .get(x)
+            .setAscii(
+              String.format("[%d]", rows.get(y).getRow().get(x).getType())
+            );
+        } else if (rows.get(y).getRow().get(x).getType() == 6) {
+          rows.get(y).getRow().get(x).setAscii("[*]");
+        }
+      }
+    }
+    return updateGrid();
+  }
+
+  public String revealCell(int Y, int X) {
+    if (rows.get(Y).getRow().get(X).getType() <= 4) {
+      rows
+        .get(Y)
+        .getRow()
+        .get(X)
+        .setAscii(String.format("[%d]", rows.get(Y).getRow().get(X).getType()));
+      System.out.println(
+        String.format(
+          "Cell %d,%d was [%s]",
+          Y,
+          X,
+          rows.get(Y).getRow().get(X).getAscii()
+        )
+      );
+      return updateGrid();
+    } else if (rows.get(Y).getRow().get(X).getType() == 6) {
+      System.out.println(
+        String.format("Oh No! Cell %d,%d was a mine! [*]!", Y, X)
+      );
+      return revealBoard();
     } else {
-      return "N/A";
+      return "Invalid Coordinate, please try again";
     }
   }
 
-  public String getCellAbove(int Y, int X) {
-    if (Y - 1 >= 0) {
-      return rows.get(Y - 1).getRow().get(X).getAscii();
-    } else {
-      return "N/A";
-    }
+  public ArrayList<Integer> getAdjacentCellsType(int Y, int X) {
+    ArrayList<Integer> cellTypes = new ArrayList<>();
+    cellTypes.add(rows.get(Y).getRow().get(X).getType());
+    cellTypes.add(getCellTypeByCoordinate(Y - 1, X));
+    cellTypes.add(getCellTypeByCoordinate(Y, X + 1));
+    cellTypes.add(getCellTypeByCoordinate(Y + 1, X));
+    cellTypes.add(getCellTypeByCoordinate(Y, X - 1));
+    return cellTypes;
+    // return String.format(
+    //   "Selected Cell:\n%d,%d : %s\n\nAdjacent Cells:\n%d,%d : %s\n%d,%d : %s\n%d,%d : %s\n" + //
+    //   "%d,%d : %s",
+    //   Y,
+    //   X,
+    //   Cell.typeToAscii(currentCellType),
+    //   (Y - 1),
+    //   X,
+    //   Cell.typeToAscii(topCellType),
+    //   Y,
+    //   X + 1,
+    //   Cell.typeToAscii(rightCellType),
+    //   (Y + 1),
+    //   X,
+    //   Cell.typeToAscii(bottomCellType),
+    //   Y,
+    //   (X - 1),
+    //   Cell.typeToAscii(leftCellType)
+    // );
   }
 
-  public String getCellBelow(int Y, int X) {
-    if (Y + 1 <= rows.size() - 1) {
-      return rows.get(Y + 1).getRow().get(X).getAscii();
-    } else {
-      return "N/A";
-    }
-  }
-
-  public String getAdjacentCells(int Y, int X) {
+  public String getAdjacentCellsAscii(int Y, int X) {
     String currentCellAscii = rows.get(Y).getRow().get(X).getAscii();
-    String leftCellAscii = getCellToLeft(Y, X);
-    String rightCellAscii = getCellToRight(Y, X);
-    String topCellAscii = getCellAbove(Y, X);
-    String bottomCellAscii = getCellBelow(Y, X);
+    String topCellAscii = getCellAsciiByCoordinate(Y - 1, X);
+    String rightCellAscii = getCellAsciiByCoordinate(Y, X + 1);
+    String bottomCellAscii = getCellAsciiByCoordinate(Y + 1, X);
+    String leftCellAscii = getCellAsciiByCoordinate(Y, X - 1);
     //Compile all the information
     return String.format(
-      "Selected Cell:\n%d,%d : %s\n\nHoriz Adjacent Cells:\n%d,%d : %s\n%d,%d : %s\n\nVert Adjacent Cells:\n%d,%d : %s\n" + //
+      "Selected Cell:\n%d,%d : %s\n\nAdjacent Cells:\n%d,%d : %s\n%d,%d : %s\n%d,%d : %s\n" + //
       "%d,%d : %s",
       Y,
       X,
       currentCellAscii,
-      Y,
-      (X - 1),
-      leftCellAscii,
-      Y,
-      X + 1,
-      rightCellAscii,
       (Y - 1),
       X,
       topCellAscii,
+      Y,
+      X + 1,
+      rightCellAscii,
       (Y + 1),
       X,
-      bottomCellAscii
+      bottomCellAscii,
+      Y,
+      (X - 1),
+      leftCellAscii
     );
   }
 }
-//Expected output of getAdjacentAscii
-//Selected Cell:
-//<CellCoords>:<CellAscii>
-//
-//Adjacent Cells:
-//<CellCoords>:<CellAscii>
-//<CellCoords>:<CellAscii>

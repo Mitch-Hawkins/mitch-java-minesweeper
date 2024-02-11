@@ -34,4 +34,25 @@ public class Cell {
   public void setType(int type) {
     this.type = type;
   }
+
+  public static String typeToAscii(int type) {
+    switch (type) {
+      case 0:
+        return "[0]";
+      case 1:
+        return "[1]";
+      case 2:
+        return "[2]";
+      case 3:
+        return "[3]";
+      case 4:
+        return "[4]";
+      case 5:
+        return "[!]";
+      case 6:
+        return "[*]";
+      default:
+        return "[ ]";
+    }
+  }
 }
