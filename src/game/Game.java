@@ -9,7 +9,6 @@ public class Game {
 
   public static int[] nextTurn(int amountOfRows, int lengthOfRows) {
     int[] inputCoords = { 0, 0 };
-    // Scanner myScanner = new Scanner(System.in);
     Integer Y = null;
     while (Y == null) {
       System.out.println("Please enter a Y coordinate");
@@ -33,7 +32,6 @@ public class Game {
       }
     }
     System.out.println("");
-    // Main.myScanner.close();
     return inputCoords;
   }
 }

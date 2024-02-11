@@ -1,6 +1,7 @@
 package grid;
 
 import game.Game;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -131,7 +132,7 @@ public class Grid {
     }
   }
 
-  public String revealBoard() {
+  public void revealBoard() {
     for (int x = 0; x <= rows.get(0).getRow().size() - 1; x++) {
       for (int y = 0; y <= rows.size() - 1; y++) {
         if (rows.get(y).getRow().get(x).getType() <= 4) {
@@ -147,11 +148,42 @@ public class Grid {
         }
       }
     }
-    return updateGrid();
+    // return updateGrid();
   }
 
   public String revealCell(int Y, int X) {
-    if (rows.get(Y).getRow().get(X).getType() <= 4) {
+    if (rows.get(Y).getRow().get(X).getIsRevealed()) {
+      // System.out.println("Cell Already Revealed");
+      return updateGrid();
+    }
+    rows.get(Y).getRow().get(X).setIsRevealed(true);
+    if (rows.get(Y).getRow().get(X).getType() == 0) {
+      rows.get(Y).getRow().get(X).setAscii("[0]");
+      try {
+        ArrayList<int[]> adjCells = getAdjacentCellsCoordinates(Y, X);
+        ArrayList<Integer> adjTypes = getAdjacentCellsType(Y, X);
+        if (adjTypes.contains(6)) {
+          System.out.println(
+            String.format(
+              "Cell %d,%d was [%s]\n",
+              Y,
+              X,
+              rows.get(Y).getRow().get(X).getAscii()
+            )
+          );
+        } else {
+          for (int i = 1; i <= adjCells.size() - 1; i++) {
+            revealCell(adjCells.get(i)[0], adjCells.get(i)[1]);
+          }
+        }
+      } catch (Exception e) {
+        System.out.println("Error");
+      }
+    }
+    if (
+      rows.get(Y).getRow().get(X).getType() <= 4 &&
+      rows.get(Y).getRow().get(X).getType() >= 1
+    ) {
       rows
         .get(Y)
         .getRow()
@@ -165,17 +197,53 @@ public class Grid {
           rows.get(Y).getRow().get(X).getAscii()
         )
       );
-      return updateGrid();
+      // return updateGrid();
     } else if (rows.get(Y).getRow().get(X).getType() == 6) {
       System.out.println(
         String.format("Oh No! Cell %d,%d was a mine! [*]!\n", Y, X)
       );
       System.out.println("GAME OVER");
       Game.isGameWon = true;
-      return revealBoard();
-    } else {
-      return "Invalid Coordinate, please try again";
+      revealBoard();
     }
+    return updateGrid();
+  }
+
+  public int limitY(int Y) {
+    if (Y < 0) {
+      return 0;
+    } else if (Y > amountOfRows - 1) {
+      return amountOfRows - 1;
+    } else {
+      return Y;
+    }
+  }
+
+  public int limitX(int X) {
+    if (X < 0) {
+      return 0;
+    } else if (X > lengthOfRows - 1) {
+      return lengthOfRows - 1;
+    } else {
+      return X;
+    }
+  }
+
+  public ArrayList<int[]> getAdjacentCellsCoordinates(int Y, int X) {
+    ArrayList<int[]> cellCoordinates = new ArrayList<>();
+
+    //===
+    cellCoordinates.add(new int[] { limitY(Y), limitX(X) });
+    cellCoordinates.add(new int[] { limitY(Y - 1), limitX(X) });
+    cellCoordinates.add(new int[] { limitY(Y), limitX(X + 1) });
+    cellCoordinates.add(new int[] { limitY(Y + 1), limitX(X) });
+    cellCoordinates.add(new int[] { limitY(Y), limitX(X - 1) });
+    cellCoordinates.add(new int[] { limitY(Y - 1), limitX(X + 1) });
+    cellCoordinates.add(new int[] { limitY(Y + 1), limitX(X + 1) });
+    cellCoordinates.add(new int[] { limitY(Y + 1), limitX(X - 1) });
+    cellCoordinates.add(new int[] { limitY(Y - 1), limitX(X - 1) });
+
+    return cellCoordinates;
   }
 
   public ArrayList<Integer> getAdjacentCellsType(int Y, int X) {

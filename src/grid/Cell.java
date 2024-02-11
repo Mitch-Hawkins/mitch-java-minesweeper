@@ -4,19 +4,23 @@ public class Cell {
 
   private String ascii;
   private int type;
+  private boolean isRevealed;
 
   public Cell() {
     this.ascii = "[ ]";
+    this.isRevealed = false;
   }
 
   public Cell(int type) {
     this.ascii = "[ ]";
     this.type = type;
+    this.isRevealed = false;
   }
 
   public Cell(String ascii, int type) {
     this.ascii = ascii; //ascii contents of the cell
     this.type = type;
+    this.isRevealed = false;
   }
 
   public String getAscii() {
@@ -33,6 +37,14 @@ public class Cell {
 
   public void setType(int type) {
     this.type = type;
+  }
+
+  public boolean getIsRevealed() {
+    return this.isRevealed;
+  }
+
+  public void setIsRevealed(boolean isRevealed) {
+    this.isRevealed = isRevealed;
   }
 
   public static String typeToAscii(int type) {
