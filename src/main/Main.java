@@ -15,10 +15,12 @@ public class Main {
 
   public static void main(String[] args) throws Exception {
     // New Game
+    cleanScreen();
     System.out.println(
       "Welcome to Minesweeper! First, how many rows do you want in your grid?:"
     );
     int numberOfRows = myScanner.nextInt();
+    cleanScreen();
     System.out.println(
       String.format(
         "Okay, %d rows it is! How long do you want each row to be?",
@@ -26,6 +28,7 @@ public class Main {
       )
     );
     int lengthOfRows = myScanner.nextInt();
+    cleanScreen();
     System.out.println(
       String.format(
         "Okay, lets make a grid with %d rows that are %d cells long. Lastly, how many mines would you like to randomly plant?",
@@ -34,26 +37,25 @@ public class Main {
       )
     );
     int numberOfMines = myScanner.nextInt();
-    System.out.println(
-      String.format("%d Mines Planted, now lets play!", numberOfMines)
-    );
+    cleanScreen();
+    System.out.println("Mines Planted! Now let's play!\n");
     Grid grid = new Grid(
       numberOfRows,
       lengthOfRows,
       new ArrayList<Row>(numberOfRows)
     );
-    System.out.println("Starting Grid: \n");
+    System.out.print("   ");
+    for (int i = 0; i <= lengthOfRows - 1; i++) {
+      System.out.print(" " + i + " ");
+    }
+    System.out.println("");
     System.out.println(grid.createGrid());
-    System.out.println("\n");
+    System.out.println("\nStarting Grid: \n");
     grid.plantMines(numberOfMines);
     grid.determineTypes();
-    // myScanner.close();
     while (!Game.isGameWon) {
-      System.out.println(
-        "Please enter the coordinate of a cell you'd like to check!"
-      );
-      int[] returnedCoords = Game.nextTurn(numberOfRows, lengthOfRows);
-      System.out.println(grid.revealCell(returnedCoords[0], returnedCoords[1]));
+      System.out.println("Please enter a command!");
+      Game.turnCommand(grid, numberOfRows, lengthOfRows);
       System.out.println("");
     }
     myScanner.close();
@@ -62,6 +64,11 @@ public class Main {
   //=======================================================================
   //=======================================================================
   //=======================================================================
+
+  public static void cleanScreen() {
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+  }
 
   public static void oldStartup(Grid grid) {}
 }

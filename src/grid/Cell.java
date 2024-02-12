@@ -60,8 +60,16 @@ public class Cell {
       case 4:
         return "[4]";
       case 5:
-        return "[!]";
+        return "[5]";
       case 6:
+        return "[6]";
+      case 7:
+        return "[7]";
+      case 8:
+        return "[8]";
+      case 9:
+        return "[!]";
+      case 10:
         return "[*]";
       default:
         return "[ ]";

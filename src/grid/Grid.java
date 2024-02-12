@@ -5,6 +5,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import main.Main;
 
 public class Grid {
 
@@ -58,16 +59,16 @@ public class Grid {
         .get(coordinatesOfMines.get(i)[0])
         .getRow()
         .get(coordinatesOfMines.get(i)[1])
-        .setType(6);
-      System.out.println(Arrays.toString(coordinatesOfMines.get(i)));
+        .setType(10);
+      // System.out.println(Arrays.toString(coordinatesOfMines.get(i)));
     }
-    System.out.println("Mines Planted!");
+    // System.out.println("Mines Planted!");
   }
 
   public String printGrid() {
     ArrayList<String> tempString = new ArrayList<>();
     for (int i = 0; i < rows.size(); i++) {
-      tempString.add(rows.get(i).printRow());
+      tempString.add(String.format(" %d %s", i, rows.get(i).printRow()));
     }
     return String.join("\n", tempString);
   }
@@ -118,11 +119,11 @@ public class Grid {
   public void determineTypes() {
     for (int x = 0; x <= rows.get(0).getRow().size() - 1; x++) {
       for (int y = 0; y <= rows.size() - 1; y++) {
-        if (rows.get(y).getRow().get(x).getType() != 6) {
+        if (rows.get(y).getRow().get(x).getType() != 10) {
           int cellNumberCount = 0;
           ArrayList<Integer> cellTypes = getAdjacentCellsType(y, x);
           for (int i = 0; i <= cellTypes.size() - 1; i++) {
-            if (cellTypes.get(i) == 6) {
+            if (cellTypes.get(i) == 10) {
               cellNumberCount++;
             }
             rows.get(y).getRow().get(x).setType(cellNumberCount);
@@ -135,7 +136,7 @@ public class Grid {
   public void revealBoard() {
     for (int x = 0; x <= rows.get(0).getRow().size() - 1; x++) {
       for (int y = 0; y <= rows.size() - 1; y++) {
-        if (rows.get(y).getRow().get(x).getType() <= 4) {
+        if (rows.get(y).getRow().get(x).getType() <= 8) {
           rows
             .get(y)
             .getRow()
@@ -143,7 +144,7 @@ public class Grid {
             .setAscii(
               String.format("[%d]", rows.get(y).getRow().get(x).getType())
             );
-        } else if (rows.get(y).getRow().get(x).getType() == 6) {
+        } else if (rows.get(y).getRow().get(x).getType() == 10) {
           rows.get(y).getRow().get(x).setAscii("[*]");
         }
       }
@@ -153,7 +154,6 @@ public class Grid {
 
   public String revealCell(int Y, int X) {
     if (rows.get(Y).getRow().get(X).getIsRevealed()) {
-      // System.out.println("Cell Already Revealed");
       return updateGrid();
     }
     rows.get(Y).getRow().get(X).setIsRevealed(true);
@@ -162,15 +162,15 @@ public class Grid {
       try {
         ArrayList<int[]> adjCells = getAdjacentCellsCoordinates(Y, X);
         ArrayList<Integer> adjTypes = getAdjacentCellsType(Y, X);
-        if (adjTypes.contains(6)) {
-          System.out.println(
-            String.format(
-              "Cell %d,%d was [%s]\n",
-              Y,
-              X,
-              rows.get(Y).getRow().get(X).getAscii()
-            )
-          );
+        if (adjTypes.contains(10)) {
+          // System.out.println(
+          //   String.format(
+          //     "Cell %d,%d was [%s]\n",
+          //     Y,
+          //     X,
+          //     rows.get(Y).getRow().get(X).getAscii()
+          //   )
+          // );
         } else {
           for (int i = 1; i <= adjCells.size() - 1; i++) {
             revealCell(adjCells.get(i)[0], adjCells.get(i)[1]);
@@ -181,7 +181,7 @@ public class Grid {
       }
     }
     if (
-      rows.get(Y).getRow().get(X).getType() <= 4 &&
+      rows.get(Y).getRow().get(X).getType() <= 8 &&
       rows.get(Y).getRow().get(X).getType() >= 1
     ) {
       rows
@@ -189,23 +189,19 @@ public class Grid {
         .getRow()
         .get(X)
         .setAscii(String.format("[%d]", rows.get(Y).getRow().get(X).getType()));
-      System.out.println(
-        String.format(
-          "Cell %d,%d was [%s]\n",
-          Y,
-          X,
-          rows.get(Y).getRow().get(X).getAscii()
-        )
-      );
-      // return updateGrid();
-    } else if (rows.get(Y).getRow().get(X).getType() == 6) {
+    } else if (rows.get(Y).getRow().get(X).getType() == 10) {
       System.out.println(
         String.format("Oh No! Cell %d,%d was a mine! [*]!\n", Y, X)
       );
-      System.out.println("GAME OVER");
+      System.out.println("GAME OVER\n");
       Game.isGameWon = true;
       revealBoard();
     }
+    return updateGrid();
+  }
+
+  public String placeFlag(int Y, int X) {
+    rows.get(Y).getRow().get(X).setAscii("[!]");
     return updateGrid();
   }
 
