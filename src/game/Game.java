@@ -26,7 +26,7 @@ public class Game {
           break;
         default:
           Main.cleanScreen();
-          System.out.println(grid.updateGrid());
+          grid.updateGrid();
           System.out.println("\nInvalid Command, please try again.\n");
           break;
       }
@@ -67,7 +67,8 @@ public class Game {
       System.out.print(" " + i + " ");
     }
     System.out.println("");
-    System.out.println(grid.revealCell(inputCoords[0], inputCoords[1]));
+    // System.out.println(grid.revealCell(inputCoords[0], inputCoords[1]));
+    grid.revealCell(inputCoords[0], inputCoords[1]);
   }
 
   public static void nextTurnFlag(
@@ -99,6 +100,6 @@ public class Game {
       }
     }
     Main.cleanScreen();
-    System.out.println(grid.placeFlag(Y, X));
+    grid.placeFlag(Y, X);
   }
 }

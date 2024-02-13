@@ -65,15 +65,15 @@ public class Grid {
     // System.out.println("Mines Planted!");
   }
 
-  public String printGrid() {
+  public void printGrid() {
     ArrayList<String> tempString = new ArrayList<>();
     for (int i = 0; i < rows.size(); i++) {
       tempString.add(String.format(" %d %s", i, rows.get(i).printRow()));
     }
-    return String.join("\n", tempString);
+    System.out.println(String.join("\n", tempString));
   }
 
-  public String createGrid() {
+  public void createGrid() {
     for (int i = 0; i < this.amountOfRows; i++) {
       Row row = new Row(
         new ArrayList<Cell>(this.lengthOfRows),
@@ -82,16 +82,22 @@ public class Grid {
       row.createRow();
       rows.add(row);
     }
-    return printGrid();
+    printGrid();
   }
 
-  public String updateGrid() {
+  public void updateGrid() {
     for (int i = 0; i < this.amountOfRows; i++) {
       for (int j = 0; j < rows.get(i).getRow().size(); j++) {
         rows.get(i).getRow().set(j, rows.get(i).getRow().get(j));
       }
     }
-    return printGrid();
+    Main.cleanScreen();
+    System.out.print("   ");
+    for (int i = 0; i <= lengthOfRows - 1; i++) {
+      System.out.print(" " + i + " ");
+    }
+    System.out.println("");
+    printGrid();
   }
 
   public int getCellTypeByCoordinate(int Y, int X) {
@@ -152,57 +158,54 @@ public class Grid {
     // return updateGrid();
   }
 
-  public String revealCell(int Y, int X) {
+  public void revealCell(int Y, int X) {
     if (rows.get(Y).getRow().get(X).getIsRevealed()) {
-      return updateGrid();
-    }
-    rows.get(Y).getRow().get(X).setIsRevealed(true);
-    if (rows.get(Y).getRow().get(X).getType() == 0) {
-      rows.get(Y).getRow().get(X).setAscii("[0]");
-      try {
-        ArrayList<int[]> adjCells = getAdjacentCellsCoordinates(Y, X);
-        ArrayList<Integer> adjTypes = getAdjacentCellsType(Y, X);
-        if (adjTypes.contains(10)) {
-          // System.out.println(
-          //   String.format(
-          //     "Cell %d,%d was [%s]\n",
-          //     Y,
-          //     X,
-          //     rows.get(Y).getRow().get(X).getAscii()
-          //   )
-          // );
-        } else {
-          for (int i = 1; i <= adjCells.size() - 1; i++) {
-            revealCell(adjCells.get(i)[0], adjCells.get(i)[1]);
+      updateGrid();
+    } else {
+      rows.get(Y).getRow().get(X).setIsRevealed(true);
+      if (rows.get(Y).getRow().get(X).getType() == 0) {
+        rows.get(Y).getRow().get(X).setAscii("[0]");
+        try {
+          ArrayList<int[]> adjCells = getAdjacentCellsCoordinates(Y, X);
+          ArrayList<Integer> adjTypes = getAdjacentCellsType(Y, X);
+          if (adjTypes.contains(10)) {} else {
+            for (int i = 1; i <= adjCells.size() - 1; i++) {
+              revealCell(adjCells.get(i)[0], adjCells.get(i)[1]);
+            }
           }
+        } catch (Exception e) {
+          System.out.println("Error");
         }
-      } catch (Exception e) {
-        System.out.println("Error");
       }
+      if (
+        rows.get(Y).getRow().get(X).getType() <= 8 &&
+        rows.get(Y).getRow().get(X).getType() >= 1
+      ) {
+        rows
+          .get(Y)
+          .getRow()
+          .get(X)
+          .setAscii(
+            String.format("[%d]", rows.get(Y).getRow().get(X).getType())
+          );
+      } else if (rows.get(Y).getRow().get(X).getType() == 10) {
+        System.out.println(
+          String.format("Oh No! Cell %d,%d was a mine! [*]!\n", Y, X)
+        );
+        System.out.println("GAME OVER\n");
+        Game.isGameWon = true;
+        revealBoard();
+      }
+      updateGrid();
     }
-    if (
-      rows.get(Y).getRow().get(X).getType() <= 8 &&
-      rows.get(Y).getRow().get(X).getType() >= 1
-    ) {
-      rows
-        .get(Y)
-        .getRow()
-        .get(X)
-        .setAscii(String.format("[%d]", rows.get(Y).getRow().get(X).getType()));
-    } else if (rows.get(Y).getRow().get(X).getType() == 10) {
-      System.out.println(
-        String.format("Oh No! Cell %d,%d was a mine! [*]!\n", Y, X)
-      );
-      System.out.println("GAME OVER\n");
-      Game.isGameWon = true;
-      revealBoard();
-    }
-    return updateGrid();
   }
 
-  public String placeFlag(int Y, int X) {
+  public void placeFlag(int Y, int X) {
+    if (rows.get(Y).getRow().get(X).getIsRevealed()) {
+      updateGrid();
+    }
     rows.get(Y).getRow().get(X).setAscii("[!]");
-    return updateGrid();
+    updateGrid();
   }
 
   public int limitY(int Y) {
