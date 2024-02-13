@@ -183,15 +183,10 @@ public class Grid {
             String.format("[%d]", rows.get(Y).getRow().get(X).getType())
           );
       } else if (rows.get(Y).getRow().get(X).getType() == 10) {
-        System.out.println(
-          String.format("Oh No! Cell %d,%d was a mine! [*]!\n", Y, X)
-        );
-        System.out.println("GAME OVER\n");
-        Game.isGameWon = true;
+        Game.isGameOver = true;
         revealBoard();
       }
       updateGrid();
-      // printGrid();
     }
   }
 
@@ -199,10 +194,24 @@ public class Grid {
     if (rows.get(Y).getRow().get(X).getIsRevealed()) {
       updateGrid();
       printGrid();
+      System.out.print("\nThat Cell is already Revealed!\n");
+    } else {
+      rows.get(Y).getRow().get(X).setAscii("[!]");
+      updateGrid();
+      printGrid();
     }
-    rows.get(Y).getRow().get(X).setAscii("[!]");
-    updateGrid();
-    printGrid();
+  }
+
+  public void removeFlag(int Y, int X) {
+    if (rows.get(Y).getRow().get(X).getAscii() != "[!]") {
+      updateGrid();
+      printGrid();
+      System.out.print("\nThat Cell has no flag to remove!\n");
+    } else {
+      rows.get(Y).getRow().get(X).setAscii("[ ]");
+      updateGrid();
+      printGrid();
+    }
   }
 
   public int limitY(int Y) {
