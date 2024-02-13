@@ -38,18 +38,18 @@ public class Main {
     );
     int numberOfMines = myScanner.nextInt();
     cleanScreen();
-    System.out.println("Mines Planted! Now let's play!\n");
     Grid grid = new Grid(
       numberOfRows,
       lengthOfRows,
       new ArrayList<Row>(numberOfRows)
     );
-    System.out.print("   ");
-    for (int i = 0; i <= lengthOfRows - 1; i++) {
-      System.out.print(" " + i + " ");
-    }
-    System.out.println("");
+    // System.out.print("   ");
+    // for (int i = 0; i <= lengthOfRows - 1; i++) {
+    //   System.out.print(" " + i + " ");
+    // }
+    // System.out.println("");
     grid.createGrid();
+    grid.printGrid();
     System.out.println("\nStarting Grid: \n");
     grid.plantMines(numberOfMines);
     grid.determineTypes();

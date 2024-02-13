@@ -25,8 +25,8 @@ public class Game {
         case "":
           break;
         default:
-          Main.cleanScreen();
           grid.updateGrid();
+          grid.printGrid();
           System.out.println("\nInvalid Command, please try again.\n");
           break;
       }
@@ -67,8 +67,8 @@ public class Game {
       System.out.print(" " + i + " ");
     }
     System.out.println("");
-    // System.out.println(grid.revealCell(inputCoords[0], inputCoords[1]));
     grid.revealCell(inputCoords[0], inputCoords[1]);
+    grid.printGrid();
   }
 
   public static void nextTurnFlag(

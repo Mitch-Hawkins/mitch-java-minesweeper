@@ -1,7 +1,6 @@
 package grid;
 
 import game.Game;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -60,12 +59,16 @@ public class Grid {
         .getRow()
         .get(coordinatesOfMines.get(i)[1])
         .setType(10);
-      // System.out.println(Arrays.toString(coordinatesOfMines.get(i)));
     }
-    // System.out.println("Mines Planted!");
   }
 
   public void printGrid() {
+    Main.cleanScreen();
+    System.out.print("   ");
+    for (int i = 0; i <= lengthOfRows - 1; i++) {
+      System.out.print(" " + i + " ");
+    }
+    System.out.println("");
     ArrayList<String> tempString = new ArrayList<>();
     for (int i = 0; i < rows.size(); i++) {
       tempString.add(String.format(" %d %s", i, rows.get(i).printRow()));
@@ -82,7 +85,6 @@ public class Grid {
       row.createRow();
       rows.add(row);
     }
-    printGrid();
   }
 
   public void updateGrid() {
@@ -91,13 +93,6 @@ public class Grid {
         rows.get(i).getRow().set(j, rows.get(i).getRow().get(j));
       }
     }
-    Main.cleanScreen();
-    System.out.print("   ");
-    for (int i = 0; i <= lengthOfRows - 1; i++) {
-      System.out.print(" " + i + " ");
-    }
-    System.out.println("");
-    printGrid();
   }
 
   public int getCellTypeByCoordinate(int Y, int X) {
@@ -155,7 +150,6 @@ public class Grid {
         }
       }
     }
-    // return updateGrid();
   }
 
   public void revealCell(int Y, int X) {
@@ -197,15 +191,18 @@ public class Grid {
         revealBoard();
       }
       updateGrid();
+      // printGrid();
     }
   }
 
   public void placeFlag(int Y, int X) {
     if (rows.get(Y).getRow().get(X).getIsRevealed()) {
       updateGrid();
+      printGrid();
     }
     rows.get(Y).getRow().get(X).setAscii("[!]");
     updateGrid();
+    printGrid();
   }
 
   public int limitY(int Y) {
