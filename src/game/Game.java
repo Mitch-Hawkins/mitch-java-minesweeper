@@ -58,7 +58,7 @@ public class Game {
     while (X == null) {
       System.out.println("Please enter an X coordinate");
       X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows) {
+      if (X >= lengthOfRows || X < numberOfRows) {
         X = null;
         System.out.println("Invalid X coordinate, please try again");
       } else {
@@ -69,7 +69,7 @@ public class Game {
     while (Y == null) {
       System.out.println("Please enter a Y coordinate");
       Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows) {
+      if (Y >= numberOfRows || Y < numberOfRows) {
         Y = null;
         System.out.println("Invalid Y coordinate, please try again");
       } else {
@@ -92,7 +92,7 @@ public class Game {
     while (X == null) {
       System.out.println("Please enter an X coordinate");
       X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows) {
+      if (X >= lengthOfRows || X < lengthOfRows) {
         X = null;
         System.out.println("Invalid X coordinate, please try again");
       } else {
@@ -103,7 +103,7 @@ public class Game {
     while (Y == null) {
       System.out.println("Please enter a Y coordinate");
       Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows) {
+      if (Y >= numberOfRows || Y < numberOfRows) {
         Y = null;
         System.out.println("Invalid Y coordinate, please try again");
       } else {
@@ -119,7 +119,7 @@ public class Game {
     while (X == null) {
       System.out.println("Please enter an X coordinate");
       X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows) {
+      if (X >= lengthOfRows || X < lengthOfRows) {
         X = null;
         System.out.println("Invalid X coordinate, please try again");
       } else {
@@ -130,7 +130,7 @@ public class Game {
     while (Y == null) {
       System.out.println("Please enter a Y coordinate");
       Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows) {
+      if (Y >= numberOfRows || Y < numberOfRows) {
         Y = null;
         System.out.println("Invalid Y coordinate, please try again");
       } else {
