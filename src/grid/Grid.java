@@ -66,12 +66,12 @@ public class Grid {
     Main.cleanScreen();
     System.out.print("   ");
     for (int i = 0; i <= lengthOfRows - 1; i++) {
-      System.out.print(" " + i + " ");
+      System.out.print(" " + (i + 1) + " ");
     }
     System.out.println("");
     ArrayList<String> tempString = new ArrayList<>();
     for (int i = 0; i < rows.size(); i++) {
-      tempString.add(String.format(" %d %s", i, rows.get(i).printRow()));
+      tempString.add(String.format(" %d %s", (i + 1), rows.get(i).printRow()));
     }
     System.out.println(String.join("\n", tempString));
   }
