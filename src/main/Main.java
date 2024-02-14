@@ -6,7 +6,6 @@ import grid.Grid;
 import grid.Row;
 //
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -38,25 +37,21 @@ public class Main {
     );
     int numberOfMines = myScanner.nextInt();
     cleanScreen();
-    System.out.println("Mines Planted! Now let's play!\n");
     Grid grid = new Grid(
       numberOfRows,
       lengthOfRows,
       new ArrayList<Row>(numberOfRows)
     );
-    System.out.print("   ");
-    for (int i = 0; i <= lengthOfRows - 1; i++) {
-      System.out.print(" " + i + " ");
-    }
-    System.out.println("");
     grid.createGrid();
+    grid.printGrid();
     System.out.println("\nStarting Grid: \n");
     grid.plantMines(numberOfMines);
     grid.determineTypes();
-    while (!Game.isGameWon) {
-      System.out.println("Please enter a command!");
+    while (!Game.isGameOver) {
+      System.out.println("Please enter a command!\n");
       Game.turnCommand(grid, numberOfRows, lengthOfRows);
       System.out.println("");
+      Game.checkGameOver();
     }
     myScanner.close();
   }
