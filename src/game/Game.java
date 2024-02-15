@@ -2,8 +2,8 @@ package game;
 
 import grid.Cell;
 import grid.Grid;
-import grid.Row;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import main.Main;
 
 public class Game {
@@ -58,7 +58,7 @@ public class Game {
     while (X == null) {
       System.out.println("Please enter an X coordinate");
       X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows) {
+      if (X >= lengthOfRows || X < numberOfRows) {
         X = null;
         System.out.println("Invalid X coordinate, please try again");
       } else {
@@ -69,7 +69,7 @@ public class Game {
     while (Y == null) {
       System.out.println("Please enter a Y coordinate");
       Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows) {
+      if (Y >= numberOfRows || Y < numberOfRows) {
         Y = null;
         System.out.println("Invalid Y coordinate, please try again");
       } else {
@@ -92,7 +92,7 @@ public class Game {
     while (X == null) {
       System.out.println("Please enter an X coordinate");
       X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows) {
+      if (X >= lengthOfRows || X < lengthOfRows) {
         X = null;
         System.out.println("Invalid X coordinate, please try again");
       } else {
@@ -103,7 +103,7 @@ public class Game {
     while (Y == null) {
       System.out.println("Please enter a Y coordinate");
       Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows) {
+      if (Y >= numberOfRows || Y < numberOfRows) {
         Y = null;
         System.out.println("Invalid Y coordinate, please try again");
       } else {
@@ -119,7 +119,7 @@ public class Game {
     while (X == null) {
       System.out.println("Please enter an X coordinate");
       X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows) {
+      if (X >= lengthOfRows || X < lengthOfRows) {
         X = null;
         System.out.println("Invalid X coordinate, please try again");
       } else {
@@ -130,7 +130,7 @@ public class Game {
     while (Y == null) {
       System.out.println("Please enter a Y coordinate");
       Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows) {
+      if (Y >= numberOfRows || Y < numberOfRows) {
         Y = null;
         System.out.println("Invalid Y coordinate, please try again");
       } else {
@@ -183,19 +183,66 @@ public class Game {
 
   public static void startNewGame() {
     Main.cleanScreen();
+    Integer tmp1 = null;
+
     System.out.println(
-      "Welcome to Minesweeper! First, how many rows do you want in your grid?:"
+      "Welcome to Minesweeper! First, how many rows do you want in your grid? (2-30):"
     );
-    numberOfRows = Main.myScanner.nextInt(); // Can this be Public?
+
+    while (tmp1 == null) {
+      try {
+        if (Main.myScanner.hasNextInt()) {
+          tmp1 = Main.myScanner.nextInt();
+
+          if (tmp1 <= 1 || tmp1 > 30) {
+            System.out.println(
+              "\nThat number is not within the limits! Please try again with a number between 2-30:"
+            );
+            tmp1 = null;
+          } else {
+            numberOfRows = tmp1;
+          }
+        } else {
+          System.out.println("\nPlease enter a valid integer between 2-30:");
+          Main.myScanner.next();
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("\nPlease enter a valid integer between 2-30:");
+        Main.myScanner.next();
+      }
+    }
     Main.cleanScreen();
+    tmp1 = null;
     System.out.println(
       String.format(
         "Okay, %d rows it is! How long do you want each row to be?",
         numberOfRows
       )
     );
-    lengthOfRows = Main.myScanner.nextInt();
+    while (tmp1 == null) {
+      try {
+        if (Main.myScanner.hasNextInt()) {
+          tmp1 = Main.myScanner.nextInt();
+
+          if (tmp1 <= 1 || tmp1 > 30) {
+            System.out.println(
+              "\nThat number is not within the limits! Please try again with a number between 2-30:"
+            );
+            tmp1 = null;
+          } else {
+            lengthOfRows = tmp1;
+          }
+        } else {
+          System.out.println("\nPlease enter a valid integer between 2-30:");
+          Main.myScanner.next();
+        }
+      } catch (InputMismatchException e) {
+        System.out.println("\nPlease enter a valid integer between 2-30:");
+        Main.myScanner.next();
+      }
+    }
     Main.cleanScreen();
+    tmp1 = null;
     System.out.println(
       String.format(
         "Okay, lets make a grid with %d rows that are %d cells long. Lastly, how many mines would you like to randomly plant?",
@@ -203,10 +250,41 @@ public class Game {
         lengthOfRows
       )
     );
-    numberOfMines = Main.myScanner.nextInt();
+    while (tmp1 == null) {
+      try {
+        if (Main.myScanner.hasNextInt()) {
+          tmp1 = Main.myScanner.nextInt();
+
+          if (tmp1 <= 0 || tmp1 >= (numberOfRows * lengthOfRows)) {
+            System.out.println(
+              String.format(
+                "\nThat number is not within the limits! Please try again with a number between 1-%d:",
+                (numberOfRows * lengthOfRows) - 1
+              )
+            );
+            tmp1 = null;
+          } else {
+            numberOfMines = tmp1;
+          }
+        } else {
+          System.out.println(
+            "\nPlease enter a valid integer between 1 and " +
+            (numberOfRows * lengthOfRows - 1) +
+            ":"
+          );
+          Main.myScanner.next();
+        }
+      } catch (InputMismatchException e) {
+        System.out.println(
+          "\nPlease enter a valid integer between 1 and " +
+          (numberOfRows * lengthOfRows - 1) +
+          ":"
+        );
+        Main.myScanner.next();
+      }
+    }
     Main.cleanScreen();
-    grid =
-      new Grid(numberOfRows, lengthOfRows, new ArrayList<Row>(numberOfRows));
+    grid = new Grid(numberOfRows, lengthOfRows, new ArrayList<>(numberOfRows));
     grid.createGrid();
     grid.printGrid();
     System.out.println("\nStarting Grid: \n");
