@@ -149,7 +149,7 @@ public class Grid {
     for (int x = 0; x <= rows.get(0).getRow().size() - 1; x++) {
       for (int y = 0; y <= rows.size() - 1; y++) {
         Cell cell = rows.get(y).getRow().get(x);
-        if (cell.getType() <= 8) {
+        if (cell.getType() <= 8 && cell.getType() >= 1) {
           cell.setAscii(
             String.format(
               "\u001B[3%dm[%d]\u001B[0m",
@@ -157,8 +157,10 @@ public class Grid {
               cell.getType()
             )
           );
+        } else if (cell.getType() == 0) {
+          cell.setAscii("[0]");
         } else if (cell.getType() == 10) {
-          cell.setAscii("[*]");
+          cell.setAscii("\u001B[41m[*]\u001B[0m");
         }
       }
     }
@@ -172,7 +174,7 @@ public class Grid {
       cell.setIsRevealed(true);
 
       if (cell.getType() == 0) {
-        cell.setAscii("\u001B[30m[0]\u001B[0m");
+        cell.setAscii("[0]");
         try {
           revealAdjacentCells(Y, X);
         } catch (Exception e) {
@@ -212,7 +214,7 @@ public class Grid {
       printGrid();
       System.out.print("\nThat Cell is already Revealed!\n");
     } else {
-      cell.setAscii("\u001B[41m[!]\u001B[0m");
+      cell.setAscii("\u001B[44m[!]\u001B[0m");
       updateGrid();
       printGrid();
     }
@@ -220,7 +222,7 @@ public class Grid {
 
   public void removeFlag(int Y, int X) {
     Cell cell = rows.get(Y).getRow().get(X);
-    if (cell.getAscii() != "\u001B[41m[!]\u001B[0m") {
+    if (cell.getAscii() != "\u001B[44m[!]\u001B[0m") {
       updateGrid();
       printGrid();
       System.out.print("\nThat Cell has no flag to remove!\n");
