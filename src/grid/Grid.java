@@ -153,7 +153,11 @@ public class Grid {
             .getRow()
             .get(x)
             .setAscii(
-              String.format("[%d]", rows.get(y).getRow().get(x).getType())
+              String.format(
+                "\u001B[3%dm[%d]\u001B[0m",
+                rows.get(y).getRow().get(x).getType(),
+                rows.get(y).getRow().get(x).getType()
+              )
             );
         } else if (rows.get(y).getRow().get(x).getType() == 10) {
           rows.get(y).getRow().get(x).setAscii("[*]");
@@ -190,7 +194,11 @@ public class Grid {
           .getRow()
           .get(X)
           .setAscii(
-            String.format("[%d]", rows.get(Y).getRow().get(X).getType())
+            String.format(
+              "\u001B[3%dm[%d]\u001B[0m",
+              rows.get(Y).getRow().get(X).getType(),
+              rows.get(Y).getRow().get(X).getType()
+            )
           );
       } else if (rows.get(Y).getRow().get(X).getType() == 10) {
         Game.isGameOver = true;
