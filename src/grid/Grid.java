@@ -214,7 +214,7 @@ public class Grid {
       printGrid();
       System.out.print("\nThat Cell is already Revealed!\n");
     } else {
-      rows.get(Y).getRow().get(X).setAscii("[!]");
+      rows.get(Y).getRow().get(X).setAscii("\u001B[41m[!]\u001B[0m");
       updateGrid();
       printGrid();
     }

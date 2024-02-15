@@ -376,7 +376,17 @@ public class Game {
       }
     }
     if (unrevealedCells.size() <= numberOfMines) {
-      System.out.print("\nWinner Winner Chicken Dinner\n");
+      // System.out.print("\nWinner Winner Chicken Dinner\n");
+      System.out.println("");
+
+      System.out.println(" __    __  ____  ____   ____     ___  ____   __ ");
+      System.out.println("|  |__|  ||    ||    \\ |    \\   /  _]|    \\ |  |");
+      System.out.println("|  |  |  | |  | |  _  ||  _  | /  [_ |  D  )|  |");
+      System.out.println("|  |  |  | |  | |  |  ||  |  ||    _]|    / |__|");
+      System.out.println("|  `  '  | |  | |  |  ||  |  ||   [_ |    \\  __ ");
+      System.out.println(" \\      /  |  | |  |  ||  |  ||     ||  .  \\|  |");
+      System.out.println("  \\_/\\_/  |____||__|__||__|__||_____||__|\\_||__|");
+      System.out.println("                                                ");
       checkNewGame();
     }
   }
