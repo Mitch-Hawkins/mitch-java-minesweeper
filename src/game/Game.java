@@ -2,6 +2,7 @@ package game;
 
 import grid.Cell;
 import grid.Grid;
+import grid.Row;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import main.Main;
@@ -54,33 +55,49 @@ public class Game {
 
   public static void nextTurnReveal() {
     int[] inputCoords = { 0, 0 };
+
     Integer X = null;
     while (X == null) {
-      System.out.println("Please enter an X coordinate");
-      X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows || X < numberOfRows) {
-        X = null;
-        System.out.println("Invalid X coordinate, please try again");
-      } else {
-        inputCoords[1] = X;
+      try {
+        System.out.println("Please enter an X coordinate");
+        X = Main.myScanner.nextInt() - 1;
+
+        if (X >= lengthOfRows || X < 0) {
+          X = null;
+          System.out.println("Invalid X coordinate, please try again");
+        } else {
+          inputCoords[1] = X;
+        }
+      } catch (InputMismatchException e) {
+        Main.myScanner.nextLine(); // Clear the invalid input from the buffer
+        System.out.println("Invalid input! Please enter a valid integer.");
       }
     }
+
     Integer Y = null;
     while (Y == null) {
-      System.out.println("Please enter a Y coordinate");
-      Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows || Y < numberOfRows) {
-        Y = null;
-        System.out.println("Invalid Y coordinate, please try again");
-      } else {
-        inputCoords[0] = Y;
+      try {
+        System.out.println("Please enter a Y coordinate");
+        Y = Main.myScanner.nextInt() - 1;
+
+        if (Y >= numberOfRows || Y < 0) {
+          Y = null;
+          System.out.println("Invalid Y coordinate, please try again");
+        } else {
+          inputCoords[0] = Y;
+        }
+      } catch (InputMismatchException e) {
+        Main.myScanner.nextLine(); // Clear the invalid input from the buffer
+        System.out.println("Invalid input! Please enter a valid integer.");
       }
     }
+
     System.out.print("   ");
     for (int i = 0; i <= lengthOfRows - 1; i++) {
       System.out.print(" " + i + " ");
     }
     System.out.println("");
+
     grid.revealCell(inputCoords[0], inputCoords[1]);
     grid.printGrid();
     checkGameOver();
@@ -88,55 +105,85 @@ public class Game {
 
   public static void nextTurnFlag() {
     int[] inputCoords = { 0, 0 };
+
     Integer X = null;
     while (X == null) {
-      System.out.println("Please enter an X coordinate");
-      X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows || X < lengthOfRows) {
-        X = null;
-        System.out.println("Invalid X coordinate, please try again");
-      } else {
-        inputCoords[1] = X;
+      try {
+        System.out.println("Please enter an X coordinate");
+        X = Main.myScanner.nextInt() - 1;
+
+        if (X >= lengthOfRows || X < 0) {
+          X = null;
+          System.out.println("Invalid X coordinate, please try again");
+        } else {
+          inputCoords[1] = X;
+        }
+      } catch (InputMismatchException e) {
+        Main.myScanner.nextLine(); // Clear the invalid input from the buffer
+        System.out.println("Invalid input! Please enter a valid integer.");
       }
     }
+
     Integer Y = null;
     while (Y == null) {
-      System.out.println("Please enter a Y coordinate");
-      Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows || Y < numberOfRows) {
-        Y = null;
-        System.out.println("Invalid Y coordinate, please try again");
-      } else {
-        inputCoords[0] = Y;
+      try {
+        System.out.println("Please enter a Y coordinate");
+        Y = Main.myScanner.nextInt() - 1;
+
+        if (Y >= numberOfRows || Y < 0) {
+          Y = null;
+          System.out.println("Invalid Y coordinate, please try again");
+        } else {
+          inputCoords[0] = Y;
+        }
+      } catch (InputMismatchException e) {
+        Main.myScanner.nextLine(); // Clear the invalid input from the buffer
+        System.out.println("Invalid input! Please enter a valid integer.");
       }
     }
+
     grid.placeFlag(Y, X);
   }
 
   public static void nextTurnRemoveFlag() {
     int[] inputCoords = { 0, 0 };
+
     Integer X = null;
     while (X == null) {
-      System.out.println("Please enter an X coordinate");
-      X = Main.myScanner.nextInt() - 1;
-      if (X >= lengthOfRows || X < lengthOfRows) {
-        X = null;
-        System.out.println("Invalid X coordinate, please try again");
-      } else {
-        inputCoords[1] = X;
+      try {
+        System.out.println("Please enter an X coordinate");
+        X = Main.myScanner.nextInt() - 1;
+
+        if (X >= lengthOfRows || X < 0) {
+          X = null;
+          System.out.println("Invalid X coordinate, please try again");
+        } else {
+          inputCoords[1] = X;
+        }
+      } catch (InputMismatchException e) {
+        Main.myScanner.nextLine(); // Clear the invalid input from the buffer
+        System.out.println("Invalid input! Please enter a valid integer.");
       }
     }
+
     Integer Y = null;
     while (Y == null) {
-      System.out.println("Please enter a Y coordinate");
-      Y = Main.myScanner.nextInt() - 1;
-      if (Y >= numberOfRows || Y < numberOfRows) {
-        Y = null;
-        System.out.println("Invalid Y coordinate, please try again");
-      } else {
-        inputCoords[0] = Y;
+      try {
+        System.out.println("Please enter a Y coordinate");
+        Y = Main.myScanner.nextInt() - 1;
+
+        if (Y >= numberOfRows || Y < 0) {
+          Y = null;
+          System.out.println("Invalid Y coordinate, please try again");
+        } else {
+          inputCoords[0] = Y;
+        }
+      } catch (InputMismatchException e) {
+        Main.myScanner.nextLine(); // Clear the invalid input from the buffer
+        System.out.println("Invalid input! Please enter a valid integer.");
       }
     }
+
     grid.removeFlag(Y, X);
   }
 
@@ -150,7 +197,33 @@ public class Game {
 
   public static void checkGameOver() {
     if (isGameOver) {
-      System.out.println("\nGAME OVER");
+      // System.out.println("\nGAME OVER");
+      System.out.println("");
+
+      System.out.println(
+        "  ____   ____  ___ ___    ___       ___   __ __    ___  ____   __ "
+      );
+      System.out.println(
+        " /    | /    ||   |   |  /  _]     /   \\ |  |  |  /  _]|    \\ |  |"
+      );
+      System.out.println(
+        "|   __||  o  || _   _ | /  [_     |     ||  |  | /  [_ |  D  )|  |"
+      );
+      System.out.println(
+        "|  |  ||     ||  \\_/  ||    _]    |  O  ||  |  ||    _]|    / |__|"
+      );
+      System.out.println(
+        "|  |_ ||  _  ||   |   ||   [_     |     ||  :  ||   [_ |    \\  __ "
+      );
+      System.out.println(
+        "|     ||  |  ||   |   ||     |    |     | \\   / |     ||  .  \\|  |"
+      );
+      System.out.println(
+        "|___,_||__|__||___|___||_____|     \\___/   \\_/  |_____||__|\\_||__|"
+      );
+      System.out.println(
+        "                                                                  "
+      );
       checkNewGame();
     }
   }
@@ -184,9 +257,9 @@ public class Game {
   public static void startNewGame() {
     Main.cleanScreen();
     Integer tmp1 = null;
-
+    printWelcome();
     System.out.println(
-      "Welcome to Minesweeper! First, how many rows do you want in your grid? (2-30):"
+      "Welcome to Minesweeper! First, how many rows do you want in your grid? (2-16):"
     );
 
     while (tmp1 == null) {
@@ -194,20 +267,20 @@ public class Game {
         if (Main.myScanner.hasNextInt()) {
           tmp1 = Main.myScanner.nextInt();
 
-          if (tmp1 <= 1 || tmp1 > 30) {
+          if (tmp1 <= 1 || tmp1 > 16) {
             System.out.println(
-              "\nThat number is not within the limits! Please try again with a number between 2-30:"
+              "\nThat number is not within the limits! Please try again with a number between 2-16:"
             );
             tmp1 = null;
           } else {
             numberOfRows = tmp1;
           }
         } else {
-          System.out.println("\nPlease enter a valid integer between 2-30:");
+          System.out.println("\nPlease enter a valid integer between 2-16:");
           Main.myScanner.next();
         }
       } catch (InputMismatchException e) {
-        System.out.println("\nPlease enter a valid integer between 2-30:");
+        System.out.println("\nPlease enter a valid integer between 2-16:");
         Main.myScanner.next();
       }
     }
@@ -215,7 +288,7 @@ public class Game {
     tmp1 = null;
     System.out.println(
       String.format(
-        "Okay, %d rows it is! How long do you want each row to be?",
+        "Okay, %d rows it is! How long do you want each row to be? (Between 2-30):",
         numberOfRows
       )
     );
@@ -284,7 +357,8 @@ public class Game {
       }
     }
     Main.cleanScreen();
-    grid = new Grid(numberOfRows, lengthOfRows, new ArrayList<>(numberOfRows));
+    grid =
+      new Grid(numberOfRows, lengthOfRows, new ArrayList<Row>(numberOfRows));
     grid.createGrid();
     grid.printGrid();
     System.out.println("\nStarting Grid: \n");
@@ -305,5 +379,32 @@ public class Game {
       System.out.print("\nWinner Winner Chicken Dinner\n");
       checkNewGame();
     }
+  }
+
+  public static void printWelcome() {
+    System.out.println(
+      " ___ ___  ____  ____     ___  _____ __    __    ___    ___  ____   ___  ____  "
+    );
+    System.out.println(
+      "|   |   ||    ||    \\   /  _]/ ___/|  |__|  |  /  _]  /  _]|    \\ /  _]|    \\ "
+    );
+    System.out.println(
+      "| _   _ | |  | |  _  | /  [_(   \\_ |  |  |  | /  [_  /  [_ |  o  )  [_ |  D  )"
+    );
+    System.out.println(
+      "|  \\_/  | |  | |  |  ||    _]\\__  ||  |  |  ||    _]|    _]|   _/    _]|    / "
+    );
+    System.out.println(
+      "|   |   | |  | |  |  ||   [_ /  \\ ||  `  '  ||   [_ |   [_ |  | |   [_ |    \\ "
+    );
+    System.out.println(
+      "|   |   | |  | |  |  ||     |\\    | \\      / |     ||     ||  | |     ||  .  \\"
+    );
+    System.out.println(
+      "|___|___||____||__|__||_____| \\___|  \\_/\\_/  |_____||_____||__| |_____||__|\\_|"
+    );
+    System.out.println(
+      "                                                                              "
+    );
   }
 }
