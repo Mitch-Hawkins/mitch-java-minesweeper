@@ -1,11 +1,8 @@
 package main;
 
 import game.Game;
-import java.util.Scanner;
 
 public class Main {
-
-  public static final Scanner myScanner = new Scanner(System.in);
 
   public static void main(String[] args) throws Exception {
     while (Game.isNewGameRequired) {
@@ -17,7 +14,7 @@ public class Main {
         System.out.println("");
       }
     }
-    myScanner.close();
+    Game.myScanner.close();
   }
 
   public static void cleanScreen() {
